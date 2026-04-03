@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encyclopédie Dashboard Pharma V3 — Manuel Intégral</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --medical-blue: #0A192F;
+            --accent-cyan: #10B981;
+            --soft-blue: #F8FAFC;
+            --text-main: #1E293B;
+            --text-dark: #0F172A;
+            --border: #E2E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F1F5F9;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- DESIGN ÉCRAN (UI MODERNE) --- */
+        .page-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* Sommaire Fixe à Gauche */
+        .sidebar {
+            width: 300px;
+            background: var(--medical-blue);
+            color: white;
+            padding: 40px 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .nav-link {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 5px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        /* Content Area */
+        .main-content {
+            flex: 1;
+            background: white;
+            padding: 80px 100px;
+        }
+
+        .hero-header {
+            border-bottom: 2px solid var(--medical-blue);
+            padding-bottom: 40px;
+            margin-bottom: 60px;
+        }
+
+        .hero-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            color: var(--medical-blue);
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hero-header p {
+            font-size: 18px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        section {
+            margin-bottom: 80px;
+            scroll-margin-top: 50px;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h2 .icon { font-size: 32px; }
+
+        h3 {
+            font-size: 18px;
+            color: var(--medical-blue);
+            margin: 30px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .doc-card {
+            background: var(--soft-blue);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .micro-geste {
+            margin-top: 15px;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent-cyan);
+        }
+
+        .step {
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .step b { color: var(--text-dark); }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-right: 8px;
+        }
+
+        .badge-pro { background: #E0F2FE; color: #0369A1; }
+        .badge-safe { background: #ECFDF5; color: #059669; }
+        .badge-audit { background: #FEF3C7; color: #92400E; }
+
+        /* Floating Action */
+        .btn-print {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: var(--accent-cyan);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            box-shadow: 0 15px 30px rgba(16,185,129,0.3);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+
+        .btn-print:hover { transform: scale(1.05); }
+
+        /* --- DESIGN IMPRESSION (PDF PRO) --- */
+        @media print {
+            body { background: white !important; font-size: 12pt; }
+            .sidebar, .btn-print { display: none !important; }
+            .page-wrapper { display: block; max-width: 100%; border: none; }
+            .main-content { padding: 0; background: none; }
+            section { page-break-before: always; border: none; margin-bottom: 2cm; }
+            section:first-of-type { page-break-before: avoid; }
+            .hero-header { border-bottom: 1px solid black; }
+            .doc-card { background: #F8FAFC !important; border: 1px solid #CCC !important; box-shadow: none !important; }
+            h2 { border-bottom: 2pt solid #0A192F !important; color: black !important; }
+            .micro-geste { border-left: 2pt solid #10B981 !important; }
+            @page {
+                size: A4 portrait;
+                margin: 2cm;
+            }
+            .nav-link, button, .icon { text-decoration: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <button class="btn-print" onclick="window.print()">🖨️ Générer le Manuel PDF (A4)</button>
+
+    <div class="page-wrapper">
+        <!-- SIDEBAR (Navigation Interactive) -->
+        <div class="sidebar">
+            <div style="margin-bottom:40px;">
+                <h1 style="font-family:'Outfit';font-size:24px;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:10px;">DASHBOARD PHARMA</h1>
+                <p style="font-size:11px;opacity:0.5;margin-top:5px;">MANUEL INTÉGRAL V3.0.0</p>
+            </div>
+
+            <h3>Navigation</h3>
+            <a href="#intro" class="nav-link">Bienvenue & Vision</a>
+            <a href="#install" class="nav-link">Installation & Sécurité</a>
+            <a href="#dashboard" class="nav-link">Tableau de Bord & Pilotage</a>
+            <a href="#transactions" class="nav-link">Le Cycle des Marchandises</a>
+            <a href="#data" class="nav-link">Gestion des Référentiels</a>
+            <a href="#analytics" class="nav-link">Analyses & Journalisation</a>
+            <a href="#export" class="nav-link">Exports & Rapports PDF</a>
+        </div>
+
+        <!-- CONTENU PRINCIPAL -->
+        <div class="main-content">
+            
+            <!-- HEADER -->
+            <header class="hero-header" id="intro">
+                <h1>Documentation Intégrale</h1>
+                <p>Maîtrisez chaque facette de votre outil de gestion médicale.</p>
+                <div style="margin-top:30px; font-size:15px; color:#64748B;">
+                    Ce manuel constitue la référence absolue pour l'utilisation du logiciel. Chaque procédure est détaillée sous forme de "micro-gestes" pour garantir une exploitation sans faille de vos flux de stock.
+                </div>
+            </header>
+
+            <!-- SECTION INSTALL -->
+            <section id="install">
+                <h2><span class="icon">🛡️</span> Installation & Activation</h2>
+                <div class="doc-card">
+                    <p>Le logiciel fonctionne sur un moteur dédié. L'installation crée un environnement sécurisé et isolé sur votre ordinateur.</p>
+                    <div class="micro-geste">
+                        <div class="step">1. <b>Lancement :</b> Double-clic sur le fichier <code>Dashboard Pharma Setup</code>.</div>
+                        <div class="step">2. <b>Validation Windows :</b> Si Windows demande une autorisation, cliquez sur "En savoir plus" puis "Exécuter quand même".</div>
+                        <div class="step">3. <b>Activation :</b> Au premier écran, copiez l'ID Matériel et transmettez-le à votre support. Saisissez ensuite la clé reçue.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION DASHBOARD -->
+            <section id="dashboard">
+                <h2><span class="icon">📊</span> Tableau de Bord & Pilotage</h2>
+                <p>C'est votre tour de contrôle. Elle se rafraîchit automatiquement à chaque opération.</p>
+                
+                <h3>Comprendre les Cartes de Performance (KPI)</h3>
+                <div class="doc-card">
+                    <div class="step"><b>📦 Valeur du Stock :</b> Montant total en FCFA de ce qui dort dans vos rayons.</div>
+                    <div class="step"><b>🔄 Flux Totaux :</b> Activité globale (entrées/sorties) enregistrée depuis le début.</div>
+                    <div class="step"><b>🚨 Alertes Actives :</b> Le nombre de produits qui nécessitent une action urgente (Rupture ou Seuil Critique).</div>
+                </div>
+
+                <h3>Les Graphiques Dynamiques</h3>
+                <div class="doc-card">
+                    <div class="step"><b>📈 Courbe des Flux :</b> Compare les livraisons aux consommations sur les 7 derniers jours pour voir si votre stock s'épuise ou se remplit.</div>
+                    <div class="step"><b>🥧 Répartition par Catégorie :</b> Identifiez d'un coup d'œil où est concentrée votre valeur financière (exemple : 60% de consommables, 20% de réactifs).</div>
+                </div>
+            </section>
+
+            <!-- SECTION TRANSACTIONS -->
+            <section id="transactions">
+                <h2><span class="icon">🚚</span> Le Cycle des Marchandises</h2>
+                <p>Quatre modules pour enregistrer le mouvement physique des produits.</p>
+
+                <div class="doc-card">
+                    <span class="badge badge-pro">ENTRÉE</span>
+                    <h3>Approvisionnement</h3>
+                    <p>Utilisé quand vous recevez une commande d'un fournisseur.</p>
+                    <div class="micro-geste">
+                        <div class="step"><b>1.</b> Cliquez sur "Produit", tapez les premières lettres pour le trouver.</div>
+                        <div class="step"><b>2.</b> Entrez la quantité reçue.</div>
+                        <div class="step"><b>3.</b> Sélectionnez le Fournisseur.</div>
+                        <div class="step"><b>4.</b> Indiquez le N° de Bon de Livraison (BL) pour la traçabilité.</div>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <span class="badge badge-safe">SORTIE</span>
+                    <h3>Livraison Client & Consommation</h3>
+                    <p>La livraison sort le produit pour un client externe. La consommation le sort pour un usage interne au service.</p>
+                    <div class="micro-geste">
+                        <div class="step"><b>Note :</b> Le logiciel vous affiche le "Stock Dépôt" en temps réel. Si vous saisissez plus que ce qui existe, une alerte rouge vous bloque pour éviter les stocks négatifs impossibles.</div>
+                    </div>
+                </div>
+
+                <div class="doc-card" style="border-left: 6px solid #F59E0B;">
+                    <span class="badge badge-audit">RÉGULARISATION</span>
+                    <h3>Retours & Ajustements (Module Critique)</h3>
+                    <p>Ce module sert à corriger la réalité physique par rapport à l'informatique.</p>
+                    <div class="micro-geste">
+                        <div class="step"><b>Mode ↩️ Retour Client :</b> Réintègre un produit en stock (Le stock remonte).</div>
+                        <div class="step"><b>Mode ↪️ Retour Fournisseur :</b> Sort un produit pour renvoi (Le stock descend).</div>
+                        <div class="step"><b>Mode ➕ Ajustement Positif :</b> Trouvaille d'inventaire.</div>
+                        <div class="step"><b>Mode ➖ Ajustement Négatif :</b> Casse, vol ou péremption constatée.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION DATA MANAGEMENT -->
+            <section id="data">
+                <h2><span class="icon">📦</span> Gestion des Référentiels</h2>
+                <p>C'est ici que vous bâtissez votre base de données. Sans données ici, impossible de faire des mouvements.</p>
+
+                <div class="doc-card">
+                    <h3>Ajouter un Nouveau Client ou Fournisseur</h3>
+                    <div class="micro-geste">
+                        <div class="step">1. Allez dans l'onglet <b>RÉFÉRENTIELS</b>.</div>
+                        <div class="step">2. Cliquez sur le sous-onglet <b>"CLIENTS"</b> ou <b>"FOURNISSEURS"</b> en haut de la page.</div>
+                        <div class="step">3. Cliquez sur le bouton bleu <b>"+ Nouveau"</b>.</div>
+                        <div class="step">4. Remplissez le Nom, l'adresse et le contact.</div>
+                        <div class="step">5. IMPORTANT : Gardez le statut sur <b>"ACTIF"</b> pour qu'il apparaisse dans les listes de saisie.</div>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Ajouter un Nouveau Produit</h3>
+                    <div class="micro-geste">
+                        <div class="step"><b>Désignation :</b> Nom clair (ex: Paracétamol 500mg).</div>
+                        <div class="step"><b>Prix Standard :</b> Le prix qui sera suggéré par défaut.</div>
+                        <div class="step"><b>Seuil Alerte :</b> À partir de combien d'unités restantes le logiciel doit s'allumer en rouge ?</div>
+                        <div class="step"><b>Unité :</b> Boîte, Flacon, Kit, etc.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION ANALYTICS -->
+            <section id="analytics">
+                <h2><span class="icon">🔍</span> Analyses & Journalisation</h2>
+                
+                <div class="doc-card">
+                    <h3>Le Journal des Flux</h3>
+                    <p>C'est la boîte noire de votre pharmacie. Chaque clic "Enregistrer" crée une ligne ici qui est ineffaçable.</p>
+                    <div class="micro-geste">
+                        <div class="step">Utilisez la barre de recherche pour filtrer par produit ou par date. C'est l'outil parfait pour comprendre pourquoi un stock semble faux.</div>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>État des Stocks</h3>
+                    <p>Une liste globale de tout ce que vous possédez, valorisée au dernier prix.</p>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Module d'Audit & Rapprochement</h3>
+                    <p>Pour les experts. Il classifie vos produits selon la méthode ABC (Importance financière) et vous permet de comparer votre inventaire théorique à votre inventaire réel.</p>
+                </div>
+            </section>
+
+            <!-- SECTION EXPORT -->
+            <section id="export">
+                <h2><span class="icon">📄</span> Exports & Rapports PDF</h2>
+                <div class="doc-card">
+                    <p>Tous vos documents sont générés proprement pour l'impression A4.</p>
+                    <div class="micro-geste">
+                        <div class="step">1. Allez dans <b>RAPPORTS & EXPORTS</b>.</div>
+                        <div class="step">2. Choisissez le type de rapport (Inventaire Complet, Alertes de Stock, Valeur Financière).</div>
+                        <div class="step">3. Sélectionnez le format : <b>XLSX</b> (pour retravailler sur Excel) ou <b>PDF</b> (pour imprimer et signer).</div>
+                    </div>
+                </div>
+            </section>
+
+            <footer style="margin-top:100px; padding-top:40px; border-top:1px solid #EEE; text-align:center; font-size:12px; color:#94A3B8;">
+                DOCUMENTATION OFFICIELLE DASHBOARD PHARMA V3.0.0<br>
+                Contact Support : Administration Logistique<br>
+                © 2026 Tous droits réservés.
+            </footer>
+        </div>
+    </div>
+
+</body>
+</html>
