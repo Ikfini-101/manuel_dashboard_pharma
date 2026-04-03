@@ -184,6 +184,34 @@
 
         .btn-print:hover, .btn-download:hover { transform: scale(1.05); color: white; }
 
+        /* --- DESIGN MOBILE (RÉDACTION MOBILE-FIRST) --- */
+        @media (max-width: 1024px) {
+            .page-wrapper { flex-direction: column; }
+            .sidebar { 
+                width: 100%; 
+                height: auto; 
+                position: relative; 
+                padding: 30px 20px; 
+            }
+            .main-content { padding: 40px 20px; }
+            .hero-header h1 { font-size: 32px; }
+            .hero-header { padding-bottom: 20px; margin-bottom: 40px; }
+            
+            .btn-print, .btn-download { 
+                position: relative; 
+                bottom: 0; 
+                right: 0; 
+                width: 100%; 
+                margin-top: 10px;
+                border-radius: 12px;
+                justify-content: center;
+            }
+            
+            .sidebar h3, .nav-link { display: none; } /* On cache les liens dans le flux mobile pour la clarté */
+            .sidebar h1 { text-align: center; border: none; }
+            .sidebar p { text-align: center; }
+        }
+
         /* --- DESIGN IMPRESSION (PDF PRO) --- */
         @media print {
             body { background: white !important; font-size: 12pt; }
