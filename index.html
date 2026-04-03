@@ -161,11 +161,8 @@
         .badge-safe { background: #ECFDF5; color: #059669; }
         .badge-audit { background: #FEF3C7; color: #92400E; }
 
-        /* Floating Action */
-        .btn-print {
+        .btn-print, .btn-download {
             position: fixed;
-            bottom: 40px;
-            right: 40px;
             background: var(--accent-cyan);
             color: white;
             padding: 15px 30px;
@@ -176,14 +173,21 @@
             cursor: pointer;
             z-index: 1000;
             transition: transform 0.2s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .btn-print:hover { transform: scale(1.05); }
+        .btn-print { bottom: 40px; right: 40px; }
+        .btn-download { bottom: 110px; right: 40px; background: var(--medical-blue); }
+
+        .btn-print:hover, .btn-download:hover { transform: scale(1.05); color: white; }
 
         /* --- DESIGN IMPRESSION (PDF PRO) --- */
         @media print {
             body { background: white !important; font-size: 12pt; }
-            .sidebar, .btn-print { display: none !important; }
+            .sidebar, .btn-print, .btn-download { display: none !important; }
             .page-wrapper { display: block; max-width: 100%; border: none; }
             .main-content { padding: 0; background: none; }
             section { page-break-before: always; border: none; margin-bottom: 2cm; }
@@ -203,6 +207,7 @@
 </head>
 <body>
 
+    <a href="Dashboard Pharma Setup 3.0.0.exe" class="btn-download" download>🚀 Télécharger le Logiciel (.exe)</a>
     <button class="btn-print" onclick="window.print()">🖨️ Générer le Manuel PDF (A4)</button>
 
     <div class="page-wrapper">
