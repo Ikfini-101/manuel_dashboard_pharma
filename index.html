@@ -169,20 +169,30 @@
             border-radius: 50px;
             border: none;
             font-weight: 700;
-            box-shadow: 0 15px 30px rgba(16,185,129,0.3);
+            box-shadow: 0 10px 25px rgba(16,185,129,0.3);
             cursor: pointer;
             z-index: 1000;
-            transition: transform 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .btn-print { bottom: 40px; right: 40px; }
-        .btn-download { bottom: 110px; right: 40px; background: var(--medical-blue); }
+        .btn-print { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 13px; opacity: 0.8; }
+        .btn-download { 
+            bottom: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: var(--medical-blue); 
+            font-size: 18px;
+            padding: 18px 40px;
+            box-shadow: 0 15px 35px rgba(10, 25, 47, 0.4);
+            border: 2px solid var(--accent-cyan);
+        }
 
-        .btn-print:hover, .btn-download:hover { transform: scale(1.05); color: white; }
+        .btn-print:hover { opacity: 1; transform: scale(1.05); }
+        .btn-download:hover { transform: translateX(-50%) scale(1.05); background: #1a2a44; border-color: white; }
 
         /* --- DESIGN MOBILE (RÉDACTION MOBILE-FIRST) --- */
         @media (max-width: 1024px) {
@@ -197,15 +207,20 @@
             .hero-header h1 { font-size: 32px; }
             .hero-header { padding-bottom: 20px; margin-bottom: 40px; }
             
-            .btn-print, .btn-download { 
-                position: relative; 
-                bottom: 0; 
-                right: 0; 
-                width: 100%; 
-                margin-top: 10px;
+            .btn-download { 
+                position: fixed; 
+                bottom: 15px; 
+                left: 10px;
+                right: 10px;
+                transform: none; 
+                width: calc(100% - 20px); 
+                padding: 15px;
+                font-size: 16px;
                 border-radius: 12px;
-                justify-content: center;
             }
+            .btn-download:hover { transform: scale(1.02); }
+
+            .btn-print { display: none; } /* On cache l'impression sur mobile pour laisser la place au téléchargement */
             
             .sidebar h3, .nav-link { display: none; } /* On cache les liens dans le flux mobile pour la clarté */
             .sidebar h1 { text-align: center; border: none; }
